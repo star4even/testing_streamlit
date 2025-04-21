@@ -25,13 +25,13 @@ st.write("### Raw Data", data.head())
 
 # Feature Engineering
 def create_features(df):
-    df['MA_3'] = df['Production ex KPC (kt)'].rolling(window=3).mean()
-    df['MA_7'] = df['Production ex KPC (kt)'].rolling(window=7).mean()
-    df['MA_14'] = df['Production ex KPC (kt)'].rolling(window=14).mean()
-    df['EWMA_7'] = df['Production ex KPC (kt)'].ewm(span=7, adjust=False).mean()
-    df['EWMA_14'] = df['Production ex KPC (kt)'].ewm(span=14, adjust=False).mean()
+    df['MA_3'] = df['Production KPC (kt)'].rolling(window=3).mean()
+    df['MA_7'] = df['Production KPC (kt)'].rolling(window=7).mean()
+    df['MA_14'] = df['Production KPC (kt)'].rolling(window=14).mean()
+    df['EWMA_7'] = df['Production KPC (kt)'].ewm(span=7, adjust=False).mean()
+    df['EWMA_14'] = df['Production KPC (kt)'].ewm(span=14, adjust=False).mean()
     for lag in range(1, 8):
-        df[f'lag_{lag}'] = df['Production ex KPC (kt)'].shift(lag)
+        df[f'lag_{lag}'] = df['Production KPC (kt)'].shift(lag)
     df['dayofweek'] = pd.to_datetime(df['date']).dt.dayofweek
     df['month'] = pd.to_datetime(df['date']).dt.month
     return df
@@ -46,7 +46,7 @@ features = [
     'dayofweek', 'month',
     'lag_1', 'lag_2', 'lag_3', 'lag_4', 'lag_5', 'lag_6', 'lag_7'
 ]
-target = 'Production ex KPC (kt)'
+target = 'Production KPC (kt)'
 
 X = data[features]
 y = data[target]
